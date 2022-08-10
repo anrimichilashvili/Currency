@@ -1,0 +1,10 @@
+C:\Users\amichilashvili\source\repos\Currency\Currency\bin\Debug\Currency.exe
+C:\Users\amichilashvili\source\repos\Currency\Currency\bin\Debug\Currency.pdb
+C:\Users\amichilashvili\source\repos\Currency\Currency\bin\Debug\SAPBusinessOneSDK.dll
+C:\Users\amichilashvili\source\repos\Currency\Currency\obj\Debug\Currency.csprojAssemblyReference.cache
+C:\Users\amichilashvili\source\repos\Currency\Currency\obj\Debug\Currency.csproj.CoreCompileInputs.cache
+C:\Users\amichilashvili\source\repos\Currency\Currency\obj\Debug\Currency.csproj.CopyComplete
+C:\Users\amichilashvili\source\repos\Currency\Currency\obj\Debug\Currency.exe
+C:\Users\amichilashvili\source\repos\Currency\Currency\obj\Debug\Currency.pdb
+C:\Users\amichilashvili\source\repos\Currency\Currency\bin\Debug\Newtonsoft.Json.dll
+C:\Users\amichilashvili\source\repos\Currency\Currency\bin\Debug\Newtonsoft.Json.xml
