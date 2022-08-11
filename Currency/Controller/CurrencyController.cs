@@ -48,44 +48,6 @@ namespace Currency.Controller
                 SAPbouiCOM.Framework.Application.SBO_Application.MessageBox(ex.Message.ToString());
             }
         }
-        public void GetCheckboxValue()
-        {
-            var rs = (SAPbobsCOM.SBObob)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge);// sdk shi chavwero
-            CurrencyService currserv = new CurrencyService();
-
-
-
-
-
-            for (int i = 0; i < DataTable.Rows.Count; i++)
-            {
-                var checkbox = (string)DataTable.GetValue("Check", i);
-                var currency = (string)DataTable.GetValue("Currency", i);
-                if (checkbox == "Y")
-                {
-                    //test = currency;
-                    Matrix.FlushToDataSource();
-                    if (currency == "EUR")
-                    {
-                        var currencies = currserv.GetCurrencies(CurrencyEnums.EUR);
-                        //Exchs.SetValue("Currency Rate", i, currencies.currencies[0]);
-                        rs.SetCurrencyRate(currencies.currencies[0].Code, currencies.Date, currencies.currencies[0].Rate);
-                    }
-                    if (currency == "USD")
-                    {
-                        //CurrencyService currserv = new CurrencyService();
-                        var usd = currserv.GetCurrencies(CurrencyEnums.USD);
-                        rs.SetCurrencyRate(usd.currencies[0].Code, usd.Date, usd.currencies[0].Rate);
-                    }
-                    if (currency == "RUB")
-                    {
-                        //CurrencyService currserv = new CurrencyService();
-                        var rub = currserv.GetCurrencies(CurrencyEnums.RUB);
-                        rs.SetCurrencyRate(rub.currencies[0].Code, rub.Date, rub.currencies[0].Rate);
-                    }
-
-                }
-            }
-        }
+        
     }
 }

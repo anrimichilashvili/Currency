@@ -14,13 +14,6 @@ namespace Currency.Controller
         public DateTime EndDate;
         public List<String> CurrList;
 
-        public SAPbouiCOM.Matrix Matrix { get { return (SAPbouiCOM.Matrix)Form.Items.Item("4").Specific; } }
-        public SAPbouiCOM.DataTable DataTable { get { return (SAPbouiCOM.DataTable)Form.DataSources.DataTables.Item("DT_0"); } }
-
-        //public SAPbouiCOM.DBDataSource DBDataSource { get { return (SAPbouiCOM.DBDataSource)Form.DataSources.DBDataSources.Item("ORTT"); } }
-
-        public SAPbouiCOM.DBDataSource DBDataSource { get { return (SAPbouiCOM.DBDataSource)Form.DataSources.DBDataSources.Item("ORTT"); } }
-
         public SAPbobsCOM.SBObob rs { get { return (SAPbobsCOM.SBObob)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge); } }
 
         public FillExchangeController(SAPbobsCOM.Company Company, SAPbouiCOM.IForm Form, DateTime StartDate, DateTime EndDate, List<String> CurrList)
@@ -42,8 +35,6 @@ namespace Currency.Controller
             try
             {
 
-                Model.Currencies serviceResult= new Model.Currencies();
-                var k = StartDate;
                 
                 Service.CurrencyService service = new Service.CurrencyService();
                 foreach (var i in CurrList)
@@ -61,29 +52,29 @@ namespace Currency.Controller
                 DateTime DateTimeCur;
 
 
+                var k1 = rs.GetItemList();
+                foreach (var g in k1.Fields)
+                {
+                    var  t = g.ToString();
+                }
                     foreach (var i in currencies)
                     {
                         rate = i.currencies.Select(o => o.Rate).FirstOrDefault();
                         code = i.currencies.Select(o => o.Code).FirstOrDefault();
-                        DateTimeCur = i.Date;
-
-                    //  DateTime date2= DateTimeCur.AddDays(-1000);
-                    //  if (date2 == DateTimeCur) continue;
-                    //  date2 = DateTimeCur;
-                    var l = rs.GetIndexRate("USD", DateTimeCur);
+                   
                         switch (code)
                         {
-                            case "EUR":
-                            rs.SetCurrencyRate(code, DateTimeCur, rate);
+                            case "EUR":                         
+                            rs.SetCurrencyRate(code, i.Date, rate,true);
                                 break;
                             case "GEL":
-                                rs.SetCurrencyRate(code, DateTimeCur, rate);
+                                rs.SetCurrencyRate(code, i.Date, rate,true);
                             break;
                             case "RUB":
-                                rs.SetCurrencyRate(code, DateTimeCur, rate);
+                                rs.SetCurrencyRate(code, i.Date, rate,true);
                             break;
                             case "USD":
-                                rs.SetCurrencyRate(code, DateTimeCur, rate);
+                                rs.SetCurrencyRate(code, i.Date, rate,true);
                             break;
                             default:
 
@@ -91,8 +82,6 @@ namespace Currency.Controller
                         }
                     
                 }
-               
-              //  Matrix.LoadFromDataSource();
                 return 1;
             }
             catch (Exception ex)

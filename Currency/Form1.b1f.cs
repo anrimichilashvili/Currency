@@ -91,9 +91,9 @@ namespace Currency
             }
             try
             {
-               
 
 
+                var currlist = new List<string>();
                 SAPbouiCOM.Matrix oMatrix = (SAPbouiCOM.Matrix)Form.Items.Item("Curency_0").Specific;
                 
             
@@ -110,7 +110,8 @@ namespace Currency
                     {
                         SAPbouiCOM.EditText oEditItemCode = (SAPbouiCOM.EditText)oMatrix.Columns.Item("Currency_0").Cells.Item(i).Specific;
                         var currencyCode = oEditItemCode.Value;
-                        Model.CurrList.currlist.Add(currencyCode);
+                        //Model.CurrList.currlist.Add(currencyCode);
+                        currlist.Add(currencyCode);
                     }
                   
                   
@@ -122,12 +123,11 @@ namespace Currency
 
                 var startingdate = DateTime.ParseExact(EditText0.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
                 var endingdate = DateTime.ParseExact(EditText1.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
-                Model.CurrList.StartDate = startingdate;
-                Model.CurrList.EndDate = endingdate;
+               
 
 
                 Company = (SAPbobsCOM.Company)SAPbouiCOM.Framework.Application.SBO_Application.Company.GetDICompany();
-               // var EXForm = Application.SBO_Application.Forms.Item("866");
+             
 
                 if (startingdate > endingdate)
                 {
@@ -139,24 +139,47 @@ namespace Currency
                     Application.SBO_Application.MessageBox("საბოლოო თარიღი არ უნდა აღემატებოდეს დღევანდელს");
                     return;
                 }
-                //CurrencyController.GetCheckboxValue();
-                FillExchangeController fillExchangeController = new FillExchangeController(Company,Form,startingdate,endingdate, Model.CurrList.currlist);
+
+                FillExchangeController fillExchangeController = new FillExchangeController(Company,Form,startingdate,endingdate, currlist);
                 var result = fillExchangeController.FillMatrix();
-                if(result==1)
-                Application.SBO_Application.MessageBox("Open Exchange Rates and Index");
-                
+                if (result == 1)
+                {
+                    EditText0.String = string.Empty;
+                    EditText1.String = string.Empty;
+                    for (int i = 1; i <= CurrencyController.DataTable.Rows.Count; i++)
+                    {
+                        SAPbouiCOM.CheckBox oChkBox = (SAPbouiCOM.CheckBox)oMatrix.Columns.Item("Check_0").Cells.Item(i).Specific;
+                        if (oChkBox.Checked == true)
+                            oChkBox.Checked = false;
+                    }
+                    Application.SBO_Application.MessageBox("Open Exchange Rates and Index");
+                    
+
+                }
+                if (result == -1)
+                {
+                    EditText0.String = string.Empty;
+                    EditText1.String = string.Empty;
+                    for (int i = 1; i <= CurrencyController.DataTable.Rows.Count; i++)
+                    {
+                        SAPbouiCOM.CheckBox oChkBox = (SAPbouiCOM.CheckBox)oMatrix.Columns.Item("Check_0").Cells.Item(i).Specific;
+                        if (oChkBox.Checked == true)
+                            oChkBox.Checked = false;
+                    }
+                    Application.SBO_Application.MessageBox("Can not update Exchange Rates");
+                }
             }
             catch (Exception ex)
             {
                 Application.SBO_Application.MessageBox(ex.Message.ToString(), 1, "Ok", "", "");
-                Model.CurrList.StartDate = DateTime.Now;
-                Model.CurrList.currlist.Clear();
+               
             }
         }
 
         private void EditText0_KeyDownAfter(object sboObject, SAPbouiCOM.SBOItemEventArg pVal)
        {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            
         }
     }
 }

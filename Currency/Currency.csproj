@@ -53,7 +53,6 @@
     <Compile Include="Model\Currencies.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\CurrencyEnums.cs" />
-    <Compile Include="Model\CurrList.cs" />
     <Compile Include="Service\CurrencyService.cs" />
     <Compile Include="Service\ICurrencyService.cs" />
     <None Include="Exchange Rates and Indexes.b1f">
