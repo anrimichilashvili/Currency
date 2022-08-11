@@ -123,9 +123,9 @@ namespace Currency
 
                 var startingdate = DateTime.ParseExact(EditText0.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
                 var endingdate = DateTime.ParseExact(EditText1.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
-               
-
-
+                Exchange_Rates_and_Indexes exchange_Rates_And_Indexes = new Exchange_Rates_and_Indexes();
+                var p = exchange_Rates_And_Indexes.UIAPIRawForm.ActiveItem;
+                
                 Company = (SAPbobsCOM.Company)SAPbouiCOM.Framework.Application.SBO_Application.Company.GetDICompany();
              
 
@@ -152,6 +152,9 @@ namespace Currency
                         if (oChkBox.Checked == true)
                             oChkBox.Checked = false;
                     }
+
+ 
+
                     Application.SBO_Application.MessageBox("Open Exchange Rates and Index");
                     
 
