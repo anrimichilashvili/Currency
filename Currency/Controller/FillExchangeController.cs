@@ -19,7 +19,7 @@ namespace Currency.Controller
 
         public SAPbobsCOM.SBObob rs { get { return (SAPbobsCOM.SBObob)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge); } }
         public SAPbouiCOM.ComboBox MonthChoice { get { return (SAPbouiCOM.ComboBox)ExchangeForm.Items.Item("13").Specific; } }
-    
+        public SAPbouiCOM.ComboBox YearChoice { get { return (SAPbouiCOM.ComboBox)ExchangeForm.Items.Item("12").Specific; } }
 
         public FillExchangeController(SAPbobsCOM.Company Company, SAPbouiCOM.IForm Form, DateTime StartDate, DateTime EndDate, List<String> CurrList)
         {
@@ -74,8 +74,8 @@ namespace Currency.Controller
 
                     rate = i.currencies.Select(o => o.Rate).FirstOrDefault();
                         code = i.currencies.Select(o => o.Code).FirstOrDefault();
-
-                        rs.SetCurrencyRate(code, startDateForFill, rate, true);
+                    if(code!="" && code !=null)
+                        rs.SetCurrencyRate(code.ToUpper(), startDateForFill, rate, true);
          
 
                     if (startDateForFill < EndDate)
@@ -87,6 +87,9 @@ namespace Currency.Controller
                 }
                 MonthChoice.Select(StartDate.Month - 2, SAPbouiCOM.BoSearchKey.psk_Index);
                 MonthChoice.Select(StartDate.Month - 1, SAPbouiCOM.BoSearchKey.psk_Index);
+
+               
+                YearChoice.Select(StartDate.Year.ToString(), SAPbouiCOM.BoSearchKey.psk_ByValue);
                 oProgressBar.Stop();
                 return 1;
          
