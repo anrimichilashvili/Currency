@@ -16,6 +16,7 @@ namespace Currency.Controller
         public SAPbobsCOM.Company Company;
         public SAPbouiCOM.Matrix Matrix { get { return (SAPbouiCOM.Matrix)Form.Items.Item("Curency_0").Specific; } }
         public SAPbouiCOM.DataTable DataTable { get { return (SAPbouiCOM.DataTable)Form.DataSources.DataTables.Item("DT_0"); } }
+        
 
 
         public CurrencyController(SAPbobsCOM.Company company, SAPbouiCOM.IForm form)
@@ -30,7 +31,7 @@ namespace Currency.Controller
             {
                 var recordSet = (SAPbobsCOM.Recordset)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
                 recordSet.DoQuery("select * from TBCPayTest.dbo.OCRN where CurrCode not Like 'FT'");
-               // recordSet.DoQuery("Select * from OCRN");
+           
                 var count = 0;
                 DataTable.Rows.Add(recordSet.RecordCount);
                 while (recordSet.EoF != true)
