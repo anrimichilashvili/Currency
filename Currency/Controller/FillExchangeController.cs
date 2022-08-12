@@ -69,46 +69,15 @@ namespace Currency.Controller
                 var startDateForFill = StartDate;
 
 
-                var recordSet = (SAPbobsCOM.Recordset)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
-                recordSet.DoQuery("select * from TBCPayTest.dbo.OCRN where CurrCode not Like 'FT'");
-                var recodsetList = new List<string>();
-
-                while (recordSet.EoF != true)
-                {
-                    recodsetList.Add((string)recordSet.Fields.Item(0).Value);
-                    recordSet.MoveNext();
-                }
                 foreach (var i in currencies)
                     {
 
                     rate = i.currencies.Select(o => o.Rate).FirstOrDefault();
                         code = i.currencies.Select(o => o.Code).FirstOrDefault();
 
-                    if (recodsetList.Contains(code))
-                    {
                         rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    }
-                    //switch (code)
-                    //{
-                    //    case "EUR":
-                    //        rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    //        break;
-                    //    case "GEL":
-                    //        rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    //        break;
-                    //    case "RUB":
-                    //        rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    //        break;
-                    //    case "USD":
-                    //        rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    //        break;
-                    //    case "AUD":
-                    //        rs.SetCurrencyRate(code, startDateForFill, rate, true);
-                    //        break;
-                    //    default:
+         
 
-                    //        break;
-                    //}
                     if (startDateForFill < EndDate)
                         startDateForFill = startDateForFill.AddDays(1);
                     else startDateForFill = StartDate;
