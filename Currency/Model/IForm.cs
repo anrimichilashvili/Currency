@@ -9,5 +9,6 @@ namespace Currency.Model
     public static class IForm
     {
         public static SAPbouiCOM.IForm ExchangeForm;
+        public static SAPbobsCOM.Company Company;
     }
 }

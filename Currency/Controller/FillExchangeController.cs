@@ -37,22 +37,42 @@ namespace Currency.Controller
             double rate = 0;
             List<Model.Currencies> currencies = new List<Model.Currencies>();
 
-          
-            
+
+
+
+            Service.CurrencyService service = new Service.CurrencyService();
+            foreach (var i in CurrList)
+            {
+                DateTime startDate = StartDate;
+                for (int o = 0; startDate <= EndDate; startDate = StartDate.AddDays(o))
+                {
+                    currencies.Add(service.GetCurrencies(i, StartDate.AddDays(o)));
+                    o++;
+                }
+            }
+            var oProgressBar = SAPbouiCOM.Framework.Application.SBO_Application.StatusBar.CreateProgressBar(code, currencies.Count, true);
+
+
             try
             {
+                var Progress = 0;
+               
+             
 
-                Service.CurrencyService service = new Service.CurrencyService();
-                foreach (var i in CurrList)
-                {
-                    DateTime startDate=StartDate;
-                    for (int o = 0; startDate <= EndDate; startDate=StartDate.AddDays(o))
-                    {
-                        currencies.Add(service.GetCurrencies(i, StartDate.AddDays(o)));
-                        o++;
-                    }
-                }
-                
+
+
+               // Service.CurrencyService service = new Service.CurrencyService();
+                //foreach (var i in CurrList)
+                //{
+                //    DateTime startDate=StartDate;
+                //    for (int o = 0; startDate <= EndDate; startDate=StartDate.AddDays(o))
+                //    {
+                //        currencies.Add(service.GetCurrencies(i, StartDate.AddDays(o)));
+                //        o++;
+                //    }
+                //}
+                //var oProgressBar = SAPbouiCOM.Framework.Application.SBO_Application.StatusBar.CreateProgressBar(code, currencies.Count, true);
+                oProgressBar.Text = "Fill Exchange Rates";
                 var count = 0;
                 var currCount = 0;
                 DateTime DateTimeCur;
@@ -87,14 +107,22 @@ namespace Currency.Controller
                     if (startDateForFill < EndDate)
                         startDateForFill = startDateForFill.AddDays(1);
                     else startDateForFill = StartDate;
-
+                    Progress += 1;
+                    oProgressBar.Value = Progress;
 
                 }
+                MonthChoice.Select(StartDate.Month - 2, SAPbouiCOM.BoSearchKey.psk_Index);
                 MonthChoice.Select(StartDate.Month - 1, SAPbouiCOM.BoSearchKey.psk_Index);
+                oProgressBar.Stop();
                 return 1;
+         
+
+        
+                
             }
             catch (Exception ex)
             {
+                oProgressBar.Stop();
                 SAPbouiCOM.Framework.Application.SBO_Application.MessageBox(ex.Message.ToString());
                 return -1;
             }

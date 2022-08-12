@@ -53,8 +53,7 @@ namespace Currency
         private void OnCustomInitialize()
         {
             Form = UIAPIRawForm;
-            Company = new SAPbobsCOM.Company();
-            CurrencyController = new CurrencyController((SAPbobsCOM.Company)SAPbouiCOM.Framework.Application.SBO_Application.Company.GetDICompany(), UIAPIRawForm);
+            CurrencyController = new CurrencyController(Model.IForm.Company, UIAPIRawForm);
             CurrencyController.FillMatrix();
             Matrix0.AutoResizeColumns();
 
@@ -123,7 +122,7 @@ namespace Currency
                 var startingdate = DateTime.ParseExact(EditText0.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
                 var endingdate = DateTime.ParseExact(EditText1.Value, "yyyyMMdd", CultureInfo.InvariantCulture);
            
-                Company = (SAPbobsCOM.Company)SAPbouiCOM.Framework.Application.SBO_Application.Company.GetDICompany();
+              
              
 
                 if (startingdate > endingdate)
@@ -137,7 +136,7 @@ namespace Currency
                     return;
                 }
 
-                FillExchangeController fillExchangeController = new FillExchangeController(Company,Form,startingdate,endingdate, currlist);
+                FillExchangeController fillExchangeController = new FillExchangeController(Model.IForm.Company,Form,startingdate,endingdate, currlist);
                 var result = fillExchangeController.FillMatrix();
                 if (result == 1)
                 {
@@ -167,7 +166,7 @@ namespace Currency
                             oChkBox.Checked = false;
                     }
                     Application.SBO_Application.SetStatusBarMessage("Can not update Exchange Rates", IsError: true);
-                   
+                    Form.Close();
                 }
             }
             catch (Exception ex)
