@@ -46,7 +46,7 @@ namespace Currency
                 oCreationPackage.Type = SAPbouiCOM.BoMenuType.mt_STRING;
                 oCreationPackage.UniqueID = "Currency.Form1";
                 oCreationPackage.String = "Form1";
-                oMenus.AddEx(oCreationPackage);
+               // oMenus.AddEx(oCreationPackage);
             }
             catch (Exception er)
             { //  Menu already exists
@@ -64,6 +64,7 @@ namespace Currency
                 {
                     Form1 activeForm = new Form1();
                     activeForm.Show();
+                   
                 }
             }
             catch (Exception ex)

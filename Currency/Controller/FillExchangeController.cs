@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Currency.Model;
 
 namespace Currency.Controller
 {
@@ -13,8 +14,11 @@ namespace Currency.Controller
         public DateTime StartDate;
         public DateTime EndDate;
         public List<String> CurrList;
+        public SAPbouiCOM.IForm ExchangeForm = Currency.Model.IForm.ExchangeForm;
+
 
         public SAPbobsCOM.SBObob rs { get { return (SAPbobsCOM.SBObob)Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge); } }
+        public SAPbouiCOM.ComboBox MonthChoice { get { return (SAPbouiCOM.ComboBox)ExchangeForm.Items.Item("13").Specific; } }
 
         public FillExchangeController(SAPbobsCOM.Company Company, SAPbouiCOM.IForm Form, DateTime StartDate, DateTime EndDate, List<String> CurrList)
         {
@@ -32,10 +36,12 @@ namespace Currency.Controller
             string code = "";
             double rate = 0;
             List<Model.Currencies> currencies = new List<Model.Currencies>();
+
+          
+            
             try
             {
 
-                
                 Service.CurrencyService service = new Service.CurrencyService();
                 foreach (var i in CurrList)
                 {
@@ -50,38 +56,41 @@ namespace Currency.Controller
                 var count = 0;
                 var currCount = 0;
                 DateTime DateTimeCur;
-
-
-                var k1 = rs.GetItemList();
-                foreach (var g in k1.Fields)
-                {
-                    var  t = g.ToString();
-                }
-                    foreach (var i in currencies)
+                var startDateForFill = StartDate;
+                foreach (var i in currencies)
                     {
-                        rate = i.currencies.Select(o => o.Rate).FirstOrDefault();
+
+                    rate = i.currencies.Select(o => o.Rate).FirstOrDefault();
                         code = i.currencies.Select(o => o.Code).FirstOrDefault();
-                   
-                        switch (code)
+                    
+                    switch (code)
                         {
                             case "EUR":                         
-                            rs.SetCurrencyRate(code, i.Date, rate,true);
+                            rs.SetCurrencyRate(code, startDateForFill, rate,true);
                                 break;
                             case "GEL":
-                                rs.SetCurrencyRate(code, i.Date, rate,true);
+                                rs.SetCurrencyRate(code, startDateForFill, rate,true);
                             break;
                             case "RUB":
-                                rs.SetCurrencyRate(code, i.Date, rate,true);
+                                rs.SetCurrencyRate(code, startDateForFill, rate,true);
                             break;
                             case "USD":
-                                rs.SetCurrencyRate(code, i.Date, rate,true);
+                                rs.SetCurrencyRate(code, startDateForFill, rate,true);
                             break;
-                            default:
+                            case "AUD":
+                            rs.SetCurrencyRate(code, startDateForFill, rate, true);
+                            break;
+                        default:
 
                                 break;
                         }
-                    
+                    if (startDateForFill < EndDate)
+                        startDateForFill = startDateForFill.AddDays(1);
+                    else startDateForFill = StartDate;
+
+
                 }
+                MonthChoice.Select(StartDate.Month - 1, SAPbouiCOM.BoSearchKey.psk_Index);
                 return 1;
             }
             catch (Exception ex)

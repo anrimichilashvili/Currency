@@ -56,7 +56,7 @@ namespace Currency.Service
 
         public Currencies GetCurrencies(string currencyCode, DateTime date)
         {
-            WebRequest webRequest = WebRequest.Create($"{_serviceUrl}/?currencies={currencyCode}&date={formatDate(date)}");
+            WebRequest webRequest = WebRequest.Create($"{_serviceUrl}/?currencies={currencyCode}&date={(date)}");
             return SendRequest(webRequest);
         }
     }

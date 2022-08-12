@@ -150,9 +150,9 @@ namespace Currency
                             oChkBox.Checked = false;
                     }
 
- 
 
-                    Application.SBO_Application.MessageBox("Open Exchange Rates and Index");
+                    Application.SBO_Application.SetStatusBarMessage("Succesfully updated exchange rates",IsError:false);
+                    Form.Close();
                     
 
                 }
@@ -166,7 +166,8 @@ namespace Currency
                         if (oChkBox.Checked == true)
                             oChkBox.Checked = false;
                     }
-                    Application.SBO_Application.MessageBox("Can not update Exchange Rates");
+                    Application.SBO_Application.SetStatusBarMessage("Can not update Exchange Rates", IsError: true);
+                   
                 }
             }
             catch (Exception ex)
